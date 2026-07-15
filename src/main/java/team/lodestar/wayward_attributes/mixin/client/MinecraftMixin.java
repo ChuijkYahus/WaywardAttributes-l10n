@@ -17,7 +17,7 @@ public class MinecraftMixin {
     private int modifyRightClickDelay(int original) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            return Math.round(InteractionTweaks.modifyBlockPlaceDelay(original, Minecraft.getInstance().player));
+            return Math.round(InteractionTweaks.modifyInteractionRate(original, Minecraft.getInstance().player));
         }
         return  original;
     }

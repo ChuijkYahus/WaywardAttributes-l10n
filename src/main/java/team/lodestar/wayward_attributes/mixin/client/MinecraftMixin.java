@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import team.lodestar.wayward_attributes.tweaks.BlockInteractionTweaks;
+import team.lodestar.wayward_attributes.tweaks.InteractionTweaks;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
@@ -17,7 +17,7 @@ public class MinecraftMixin {
     private int modifyRightClickDelay(int original) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            return Math.round(BlockInteractionTweaks.modifyBlockPlaceDelay(original, Minecraft.getInstance().player));
+            return Math.round(InteractionTweaks.modifyBlockPlaceDelay(original, Minecraft.getInstance().player));
         }
         return  original;
     }

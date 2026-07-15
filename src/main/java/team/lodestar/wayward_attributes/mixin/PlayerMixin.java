@@ -11,9 +11,9 @@ import team.lodestar.wayward_attributes.tweaks.*;
 public class PlayerMixin {
 
     @ModifyArg(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"), index = 1)
-    private AABB malum$aiStep(AABB aabb) {
+    private AABB waywardAttributes$modifyItemCollectionRange(AABB aabb) {
         Player player = (Player) (Object) this;
-        return FlowingGraspEffect.growBoundingBox(player, aabb);
+        return InteractionTweaks.modifyCollectionRadius(player, aabb);
     }
 
     @ModifyArg(method = "jumpFromGround", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;causeFoodExhaustion(F)V"))

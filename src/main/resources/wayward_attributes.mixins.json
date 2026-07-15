@@ -13,6 +13,7 @@
     "ServerPlayerMixin"
   ],
   "client": [
-    "client.ClientHooksMixin"
+    "client.ClientHooksMixin",
+    "client.MinecraftMixin"
   ]
 }

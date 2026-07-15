@@ -10,12 +10,17 @@ import team.lodestar.wayward_attributes.tweaks.*;
 @Mixin(Player.class)
 public class PlayerMixin {
 
+    @ModifyArg(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"), index = 1)
+    private AABB malum$aiStep(AABB aabb) {
+        Player player = (Player) (Object) this;
+        return FlowingGraspEffect.growBoundingBox(player, aabb);
+    }
+
     @ModifyArg(method = "jumpFromGround", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;causeFoodExhaustion(F)V"))
     private float waywardAttributes$modifyJumpHungerDrain(float exhaustion) {
         Player player = (Player) (Object) this;
         return exhaustion * HungerTweaks.modifyJumpingHungerDrain(player);
     }
-
 
     @ModifyArg(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"))
     private AABB waywardAttributes$modifySweepingRadius(AABB aabb) {

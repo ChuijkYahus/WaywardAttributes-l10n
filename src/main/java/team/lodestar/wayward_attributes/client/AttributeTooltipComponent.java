@@ -32,7 +32,7 @@ public class AttributeTooltipComponent implements ClientTooltipComponent {
     
     @Override
     public int getWidth(Font font) {
-        return font.width(this.text) + ICON_SIZE + ICON_PADDING + textOffset;
+        return font.width(text) + ICON_SIZE + ICON_PADDING + textOffset;
     }
 
     @Override
@@ -52,6 +52,6 @@ public class AttributeTooltipComponent implements ClientTooltipComponent {
 
     @Override
     public void renderText(Font font, int x, int y, Matrix4f matrix, MultiBufferSource.BufferSource bufferSource) {
-        font.drawInBatch(this.text, x + ICON_SIZE + ICON_PADDING + textOffset, y, -1, true, matrix, bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
+        font.drawInBatch(text, x + ICON_SIZE + ICON_PADDING + textOffset, y, -1, true, matrix, bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
     }
 }

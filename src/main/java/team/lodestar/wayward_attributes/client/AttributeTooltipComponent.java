@@ -9,6 +9,7 @@ import net.minecraft.util.*;
 import net.neoforged.api.distmarker.*;
 import org.joml.*;
 import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.rendering.builder.VFXBuilders;
 import team.lodestar.wayward_attributes.*;
 
 

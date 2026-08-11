@@ -43,4 +43,9 @@ public class GameEvents {
     public static void modifyVisibility(LivingEvent.LivingVisibilityEvent event) {
         DetectionTweaks.modifyVisibility(event);
     }
+
+    @SubscribeEvent
+    public static void onHeal(LivingHealEvent event) {
+        HealingTweaks.heal(event);
+    }
 }

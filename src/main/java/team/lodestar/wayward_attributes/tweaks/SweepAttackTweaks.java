@@ -18,6 +18,9 @@ public class SweepAttackTweaks {
     public static final ResourceLocation BASE_SWEEP_DAMAGE = ResourceLocation.withDefaultNamespace("base_sweeping_damage_ratio");
     public static final ResourceLocation BASE_SWEEP_RADIUS = ResourceLocation.withDefaultNamespace("base_sweeping_damage_radius");
 
+    public static final float SWORD_SWEEPING_DAMAGE_RATIO = 0.25f;
+    public static final float SWORD_SWEEPING_DAMAGE_RADIUS = 0.75f;
+
     public static float modifySweepingDamage(Player player, float damage) {
         float ratio = (float) player.getAttributeValue(Attributes.SWEEPING_DAMAGE_RATIO);
         return damage * ratio;
@@ -46,7 +49,7 @@ public class SweepAttackTweaks {
     }
 
     public static void addSwordSweeping(Item item, DataComponentPatch.Builder builder) {
-        addSwordProperties(item, builder, 0.25f, 0.75f);
+        addSwordProperties(item, builder, SWORD_SWEEPING_DAMAGE_RATIO, SWORD_SWEEPING_DAMAGE_RADIUS);
     }
 
     @SuppressWarnings("DataFlowIssue")

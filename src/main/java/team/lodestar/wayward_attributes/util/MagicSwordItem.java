@@ -5,13 +5,16 @@ import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.*;
 import team.lodestar.lodestone.modules.toolkit.item.*;
-import team.lodestar.lodestone.modules.toolkit.item.tools.*;
 import team.lodestar.wayward_attributes.core.registry.*;
+import team.lodestar.wayward_attributes.tweaks.*;
 
 import static team.lodestar.wayward_attributes.core.registry.WaywardAttributeTypes.BASE_MAGIC_DAMAGE;
 
 public class MagicSwordItem extends WaywardSwordItem {
 
+    public MagicSwordItem(Tier tier, float attackDamage, float attackSpeed, float magicDamage, LodestoneItemProperties properties) {
+        this(tier, attackDamage, attackSpeed, SweepAttackTweaks.SWORD_SWEEPING_DAMAGE_RATIO, SweepAttackTweaks.SWORD_SWEEPING_DAMAGE_RADIUS, magicDamage, properties);
+    }
     public MagicSwordItem(Tier tier, float attackDamage, float attackSpeed, float sweepDamage, float sweepRadius, float magicDamage, LodestoneItemProperties properties) {
         super(tier, attackDamage, attackSpeed, sweepDamage, sweepRadius, properties.mergeAttributes(
                 ItemAttributeModifiers.builder()

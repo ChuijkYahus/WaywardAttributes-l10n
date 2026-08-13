@@ -1,12 +1,13 @@
 package team.lodestar.wayward_attributes.tweaks;
 
+import net.minecraft.core.*;
 import net.minecraft.core.component.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.*;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.*;
 import net.neoforged.neoforge.event.*;
@@ -48,13 +49,30 @@ public class SweepAttackTweaks {
         addSwordProperties(item, builder, 0.25f, 0.75f);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static void addSwordProperties(Item item, DataComponentPatch.Builder builder, float damage, float radius) {
         var modifiers = item.components().get(DataComponents.ATTRIBUTE_MODIFIERS);
         if (modifiers == null) {
             return;
         }
-        modifiers = modifiers.withModifierAdded(Attributes.SWEEPING_DAMAGE_RATIO.getDelegate(), new AttributeModifier(BASE_SWEEP_DAMAGE, damage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        modifiers = modifiers.withModifierAdded(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getDelegate(), new AttributeModifier(BASE_SWEEP_RADIUS, radius, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        boolean hasSweepingRatio = false;
+        boolean hasSweepingRadius = false;
+        for (ItemAttributeModifiers.Entry modifier : modifiers.modifiers()) {
+            var attribute = modifier.attribute();
+            if (attribute.is(Attributes.SWEEPING_DAMAGE_RATIO.getKey())) {
+                hasSweepingRatio = true;
+                continue;
+            }
+            if (attribute.is(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getKey())) {
+                hasSweepingRadius = true;
+            }
+        }
+        if (!hasSweepingRatio) {
+            modifiers = modifiers.withModifierAdded(Attributes.SWEEPING_DAMAGE_RATIO.getDelegate(), new AttributeModifier(BASE_SWEEP_DAMAGE, damage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        }
+        if (!hasSweepingRadius) {
+            modifiers = modifiers.withModifierAdded(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getDelegate(), new AttributeModifier(BASE_SWEEP_RADIUS, radius, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        }
         builder.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
     }
 }

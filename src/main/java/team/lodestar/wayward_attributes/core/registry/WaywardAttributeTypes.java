@@ -47,6 +47,14 @@ public class WaywardAttributeTypes {
     public static final DeferredHolder<Attribute, Attribute> SWEEPING_DAMAGE_RADIUS = registerAttribute(
             create(path("sweeping_damage_radius"), 0.0D, 0.0D, 2048.0D).setAsBaseAttribute(SweepAttackTweaks.BASE_SWEEP_RADIUS).setSyncable(true));
 
+    public static final DeferredHolder<Attribute, Attribute> INTERACTION_RATE = registerAttribute(
+            create(path("interaction_rate"), 1.0D, 0.1D, 2048.0D).forcePercentageDisplay().setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> COLLECTION_RADIUS = registerAttribute(
+            create(path("collection_radius"), 1.0D, 0.1D, 2048.0D).forcePercentageDisplay().setSyncable(true));
+
+    public static final DeferredHolder<Attribute, Attribute> HEALING_MULTIPLIER = registerAttribute(
+            create(path("healing_received"), 1.0D, 0.0D, 2048.0D).forcePercentageDisplay().setSyncable(true));
+
     public static DeferredHolder<Attribute, Attribute> registerAttribute(LodestoneAttributeBuilder builder) {
         return ATTRIBUTES.register(builder.id.getPath(), builder::build);
     }

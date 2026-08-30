@@ -1,12 +1,13 @@
 package team.lodestar.wayward_attributes.tweaks;
 
+import net.minecraft.core.*;
 import net.minecraft.core.component.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.*;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.*;
 import net.neoforged.neoforge.event.*;
@@ -16,6 +17,9 @@ public class SweepAttackTweaks {
 
     public static final ResourceLocation BASE_SWEEP_DAMAGE = ResourceLocation.withDefaultNamespace("base_sweeping_damage_ratio");
     public static final ResourceLocation BASE_SWEEP_RADIUS = ResourceLocation.withDefaultNamespace("base_sweeping_damage_radius");
+
+    public static final float SWORD_SWEEPING_DAMAGE_RATIO = 0.25f;
+    public static final float SWORD_SWEEPING_DAMAGE_RADIUS = 0.75f;
 
     public static float modifySweepingDamage(Player player, float damage) {
         float ratio = (float) player.getAttributeValue(Attributes.SWEEPING_DAMAGE_RATIO);
@@ -45,16 +49,33 @@ public class SweepAttackTweaks {
     }
 
     public static void addSwordSweeping(Item item, DataComponentPatch.Builder builder) {
-        addSwordProperties(item, builder, 0.25f, 0.75f);
+        addSwordProperties(item, builder, SWORD_SWEEPING_DAMAGE_RATIO, SWORD_SWEEPING_DAMAGE_RADIUS);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static void addSwordProperties(Item item, DataComponentPatch.Builder builder, float damage, float radius) {
         var modifiers = item.components().get(DataComponents.ATTRIBUTE_MODIFIERS);
         if (modifiers == null) {
             return;
         }
-        modifiers = modifiers.withModifierAdded(Attributes.SWEEPING_DAMAGE_RATIO.getDelegate(), new AttributeModifier(BASE_SWEEP_DAMAGE, damage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        modifiers = modifiers.withModifierAdded(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getDelegate(), new AttributeModifier(BASE_SWEEP_RADIUS, radius, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        boolean hasSweepingRatio = false;
+        boolean hasSweepingRadius = false;
+        for (ItemAttributeModifiers.Entry modifier : modifiers.modifiers()) {
+            var attribute = modifier.attribute();
+            if (attribute.is(Attributes.SWEEPING_DAMAGE_RATIO.getKey())) {
+                hasSweepingRatio = true;
+                continue;
+            }
+            if (attribute.is(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getKey())) {
+                hasSweepingRadius = true;
+            }
+        }
+        if (!hasSweepingRatio) {
+            modifiers = modifiers.withModifierAdded(Attributes.SWEEPING_DAMAGE_RATIO.getDelegate(), new AttributeModifier(BASE_SWEEP_DAMAGE, damage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        }
+        if (!hasSweepingRadius) {
+            modifiers = modifiers.withModifierAdded(WaywardAttributeTypes.SWEEPING_DAMAGE_RADIUS.getDelegate(), new AttributeModifier(BASE_SWEEP_RADIUS, radius, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        }
         builder.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers);
     }
 }

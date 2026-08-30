@@ -1,0 +1,6 @@
+[
+  {
+    "attribute": "wayward_attributes:healing_received",
+    "texture": "wayward_attributes:icon/health"
+  }
+]
